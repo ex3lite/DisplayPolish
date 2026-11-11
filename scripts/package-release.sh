@@ -15,7 +15,18 @@ xcodebuild -project "$root/DisplayPolish.xcodeproj" -scheme DisplayPolish \
 app="$work/DerivedData/Build/Products/Release/DisplayPolish.app"
 codesign --verify --deep --strict "$app"
 archive=DisplayPolish-macOS-arm64.zip
+image=DisplayPolish-macOS-arm64.dmg
 ditto -c -k --keepParent "$app" "$work/$archive"
-shasum -a 256 < "$work/$archive" | awk '{print $1}' > "$work/$archive.sha256"
-cp -- "$work/$archive" "$work/$archive.sha256" "$output/"
-printf 'Release ZIP and SHA-256 written to %s\n' "$output"
+
+mkdir "$work/disk-image"
+ditto "$app" "$work/disk-image/DisplayPolish.app"
+ln -s /Applications "$work/disk-image/Applications"
+hdiutil create -srcfolder "$work/disk-image" -volname DisplayPolish -fs HFS+ \
+  -format UDZO "$work/$image"
+hdiutil verify "$work/$image"
+
+for file in "$archive" "$image"; do
+  shasum -a 256 < "$work/$file" | awk '{print $1}' > "$work/$file.sha256"
+  cp -- "$work/$file" "$work/$file.sha256" "$output/"
+done
+printf 'Release DMG, ZIP and SHA-256 files written to %s\n' "$output"

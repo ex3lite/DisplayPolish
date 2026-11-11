@@ -12,16 +12,22 @@ DisplayPolish is a macOS menu bar app for extending brightness past 100% on comp
 
 Requires an Apple silicon Mac running macOS 26.3 or later and a compatible XDR or HDR display.
 
+1. [Download the DMG](https://github.com/ex3lite/DisplayPolish/releases/latest/download/DisplayPolish-macOS-arm64.dmg).
+2. Open the disk image and drag **DisplayPolish** to **Applications**.
+3. Open DisplayPolish from Applications and look for the sun in the menu bar.
+
+The app is signed ad hoc and has no Apple notarization ticket. If Gatekeeper blocks the first launch, follow [Apple’s instructions for opening an app you trust](https://support.apple.com/en-us/102445).
+
+### Install from Terminal
+
 ```sh
 installer=$(mktemp -t displaypolish-install)
-curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.0/install.sh -o "$installer" &&
+curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.1/install.sh -o "$installer" &&
   /bin/bash "$installer"
 rm -f "$installer"
 ```
 
 The installer downloads the latest release, checks its SHA-256 and code signature, and opens the app from `~/Applications`. Run it again to update. Quit DisplayPolish from its menu before updating an installed copy.
-
-You can also download the ZIP from [Releases](https://github.com/ex3lite/DisplayPolish/releases/latest), unpack it, and move the app to Applications. The first release is signed ad hoc and has no Apple notarization ticket. If macOS blocks opening it, use [Apple’s instructions for opening an app you trust](https://support.apple.com/en-us/102445) or build from source.
 
 ## Use
 
@@ -37,7 +43,7 @@ The interface follows the preferred app language in macOS. English and Russian a
 
 ## Build from source
 
-Open `DisplayPolish.xcodeproj` in Xcode with the macOS 26.3 SDK or newer and run the **DisplayPolish** scheme. To build the release ZIP and checksum, run `./scripts/package-release.sh`.
+Open `DisplayPolish.xcodeproj` in Xcode with the macOS 26.3 SDK or newer and run the **DisplayPolish** scheme. To build the release DMG, ZIP and checksums, run `./scripts/package-release.sh`.
 
 For development with a consistent signing identity, set `CODE_SIGN_IDENTITY` in an untracked `Signing.local.xcconfig` next to `Signing.xcconfig`. An ad hoc rebuild can require granting Accessibility again. If macOS shows DisplayPolish as enabled but the app still asks for access, remove the old entry and add the current build. [Apple’s code-signing notes](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements)
 

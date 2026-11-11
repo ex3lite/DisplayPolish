@@ -12,16 +12,22 @@ DisplayPolish повышает яркость совместимых XDR- и HDR
 
 Нужен Mac с Apple silicon, macOS 26.3 или новее и совместимый дисплей XDR или HDR.
 
+1. [Скачайте DMG](https://github.com/ex3lite/DisplayPolish/releases/latest/download/DisplayPolish-macOS-arm64.dmg).
+2. Откройте образ и перетащите **DisplayPolish** в папку **«Программы»**.
+3. Запустите DisplayPolish из папки «Программы». В строке меню появится значок солнца.
+
+Приложение подписано ad hoc и выпущено без нотарификации Apple. Если Gatekeeper заблокирует первый запуск, воспользуйтесь [инструкцией Apple для доверенных приложений](https://support.apple.com/ru-ru/102445).
+
+### Установка через Терминал
+
 ```sh
 installer=$(mktemp -t displaypolish-install)
-curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.0/install.sh -o "$installer" &&
+curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.1/install.sh -o "$installer" &&
   /bin/bash "$installer"
 rm -f "$installer"
 ```
 
 Установщик скачает последний релиз, проверит SHA-256 и подпись, установит приложение в `~/Applications` и откроет его. Для обновления выйдите из DisplayPolish через его меню и повторите команду.
-
-Также можно скачать ZIP из [релизов](https://github.com/ex3lite/DisplayPolish/releases/latest), распаковать и перенести приложение в «Программы». Первый релиз подписан ad hoc и выпущен без нотарификации Apple. Если macOS блокирует запуск, воспользуйтесь [инструкцией Apple для доверенных приложений](https://support.apple.com/ru-ru/102445) или соберите проект из исходников.
 
 ## Использование
 
@@ -37,7 +43,7 @@ rm -f "$installer"
 
 ## Сборка из исходников
 
-Откройте `DisplayPolish.xcodeproj` в Xcode с SDK macOS 26.3 или новее и запустите схему **DisplayPolish**. Чтобы собрать ZIP релиза и контрольную сумму, выполните `./scripts/package-release.sh`.
+Откройте `DisplayPolish.xcodeproj` в Xcode с SDK macOS 26.3 или новее и запустите схему **DisplayPolish**. Чтобы собрать DMG, ZIP и контрольные суммы, выполните `./scripts/package-release.sh`.
 
 Для постоянной подписи при разработке задайте `CODE_SIGN_IDENTITY` в локальном `Signing.local.xcconfig` рядом с `Signing.xcconfig`. После пересборки с подписью ad hoc macOS может запросить доступ заново. Если в настройках доступ включён, а приложение продолжает его запрашивать, удалите старую запись и добавьте текущую сборку. [Техническая заметка Apple о подписи](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements)
 
