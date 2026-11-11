@@ -1,0 +1,367 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@, approximately %lld nits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, approximately %lld nits"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, около %lld нит"
+          }
+        }
+      }
+    },
+    "100%": {
+      "shouldTranslate": false
+    },
+    "Adjust the display under the pointer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust the display under the pointer"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Регулировать яркость дисплея под указателем"
+          }
+        }
+      }
+    },
+    "Allow DisplayPolish to adjust the display under the pointer.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow DisplayPolish to adjust the display under the pointer."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите DisplayPolish регулировать яркость дисплея под указателем."
+          }
+        }
+      }
+    },
+    "Brightness": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brightness"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Яркость"
+          }
+        }
+      }
+    },
+    "Brightness for %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brightness for %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Яркость дисплея «%@»"
+          }
+        }
+      }
+    },
+    "Brightness keys": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brightness keys"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клавиши яркости"
+          }
+        }
+      }
+    },
+    "Couldn’t connect to the brightness keys. Turn the setting off and on to retry.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t connect to the brightness keys. Turn the setting off and on to retry."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось подключить клавиши яркости. Выключите и снова включите настройку."
+          }
+        }
+      }
+    },
+    "Couldn’t draw XDR on this display.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t draw XDR on this display."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось отрисовать усиление XDR на этом дисплее."
+          }
+        }
+      }
+    },
+    "Couldn’t set brightness. Try macOS brightness controls.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t set brightness. Try macOS brightness controls."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось установить яркость. Попробуйте изменить её в macOS."
+          }
+        }
+      }
+    },
+    "Couldn’t start XDR on this display.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t start XDR on this display."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось включить XDR на этом дисплее."
+          }
+        }
+      }
+    },
+    "DisplayPolish": {
+      "shouldTranslate": false
+    },
+    "DisplayPolish menu": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DisplayPolish menu"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Меню DisplayPolish"
+          }
+        }
+      }
+    },
+    "Grant Access…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Access…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешить доступ…"
+          }
+        }
+      }
+    },
+    "If DisplayPolish is already enabled in Accessibility, remove its entry and add the current build.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If DisplayPolish is already enabled in Accessibility, remove its entry and add the current build."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если доступ уже включён, удалите DisplayPolish из списка «Универсальный доступ» и добавьте текущую сборку."
+          }
+        }
+      }
+    },
+    "No connected displays": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No connected displays"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет подключённых дисплеев"
+          }
+        }
+      }
+    },
+    "Open Settings…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть настройки…"
+          }
+        }
+      }
+    },
+    "Quit DisplayPolish": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit DisplayPolish"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выйти из DisplayPolish"
+          }
+        }
+      }
+    },
+    "Requested %@ · Limited by display": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requested %@ · Limited by display"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрошено %@ · Дисплей ограничивает яркость"
+          }
+        }
+      }
+    },
+    "Use brightness keys": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use brightness keys"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать клавиши яркости"
+          }
+        }
+      }
+    },
+    "XDR": {
+      "shouldTranslate": false
+    },
+    "XDR brightness": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XDR brightness"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Яркость XDR"
+          }
+        }
+      }
+    },
+    "XDR isn’t available on this display.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XDR isn’t available on this display."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На этом дисплее XDR недоступен."
+          }
+        }
+      }
+    },
+    "XDR unavailable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XDR unavailable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XDR недоступен"
+          }
+        }
+      }
+    },
+    "≈%lld nits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈%lld nits"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈%lld нит"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

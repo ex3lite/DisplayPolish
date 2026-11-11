@@ -1,0 +1,3 @@
+// Build locally without a signing certificate unless this Mac has an override.
+CODE_SIGN_IDENTITY = -
+#include? "Signing.local.xcconfig"
