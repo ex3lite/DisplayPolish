@@ -1,6 +1,8 @@
 import AppKit
 import Combine
 import CoreGraphics
+import IOKit.ps
+import notify
 
 final class XDRBoost: NSObject, ObservableObject {
     static let gainRange = 1.0...3.2
@@ -9,9 +11,9 @@ final class XDRBoost: NSObject, ObservableObject {
         case direct(DirectXDRPanel)
         case metal(XDRMetalWindow)
 
-        func close() {
+        func close(preservingLevel: Bool = false) {
             switch self {
-            case .direct(let panel): panel.close()
+            case .direct(let panel): panel.close(preservingLevel: preservingLevel)
             case .metal(let window): window.close()
             }
         }
@@ -31,6 +33,7 @@ final class XDRBoost: NSObject, ObservableObject {
     @Published private var sessions: [CGDirectDisplayID: Session] = [:]
     @Published private var errors: [CGDirectDisplayID: String] = [:]
     private var monitor: Task<Void, Never>?
+    private var powerSourceToken: Int32?
 
     var isActive: Bool { !sessions.isEmpty }
 
@@ -50,6 +53,17 @@ final class XDRBoost: NSObject, ObservableObject {
                      NSWorkspace.sessionDidResignActiveNotification] {
             workspace.addObserver(self, selector: #selector(disableAll), name: name, object: nil)
         }
+        var token: Int32 = 0
+        if notify_register_dispatch(kIOPSNotifyPowerSource, &token, .main, { [weak self] _ in
+            MainActor.assumeIsolated { self?.refreshActiveDisplays() }
+        }) == NOTIFY_STATUS_OK {
+            powerSourceToken = token
+        }
+    }
+
+    isolated deinit {
+        monitor?.cancel()
+        if let powerSourceToken { notify_cancel(powerSourceToken) }
     }
 
     func isSupported(on id: CGDirectDisplayID) -> Bool {
@@ -89,12 +103,12 @@ final class XDRBoost: NSObject, ObservableObject {
         let current = sessions[id]
         if case .direct(let panel)? = current?.output {
             guard panel.setGain(gain) else { return false }
-            updateDirect(panel, id: id, gain: gain)
+            updateDirect(panel, id: id, gain: gain, nits: panel.levelNits ?? panel.sdrWhiteNits)
             return true
         }
         if current == nil, hardware, let panel = DirectXDRPanel(displayID: id) {
             if panel.setGain(gain) {
-                updateDirect(panel, id: id, gain: gain)
+                updateDirect(panel, id: id, gain: gain, nits: panel.levelNits ?? panel.sdrWhiteNits)
                 startMonitoring()
                 return true
             }
@@ -116,8 +130,8 @@ final class XDRBoost: NSObject, ObservableObject {
         errors.removeAll()
     }
 
-    private func stop(_ id: CGDirectDisplayID, message: String? = nil) {
-        if let session = sessions.removeValue(forKey: id) { session.output.close() }
+    private func stop(_ id: CGDirectDisplayID, message: String? = nil, preservingLevel: Bool = false) {
+        sessions.removeValue(forKey: id)?.output.close(preservingLevel: preservingLevel)
         if errors[id] != message { errors[id] = message }
         if sessions.isEmpty {
             monitor?.cancel()
@@ -143,22 +157,34 @@ final class XDRBoost: NSObject, ObservableObject {
             errors = errors.filter { connected.contains($0.key) }
         }
         for (id, session) in sessions {
-            guard let screen = Self.eligibleScreen(id, among: screens) else {
-                stop(id)
-                continue
-            }
+            let screen = Self.eligibleScreen(id, among: screens)
             switch session.output {
-            case .direct(let panel): updateDirect(panel, id: id, gain: session.requested)
-            case .metal: render(on: screen, id: id, gain: session.requested)
+            case .direct(let panel):
+                let nits = panel.levelNits
+                if let nits, nits <= panel.sdrWhiteNits {
+                    stop(id, preservingLevel: true)
+                } else if screen == nil {
+                    stop(id)
+                } else if let nits {
+                    updateDirect(panel, id: id, nits: nits)
+                }
+            case .metal:
+                if let screen {
+                    render(on: screen, id: id, gain: session.requested)
+                } else {
+                    stop(id)
+                }
             }
         }
     }
 
-    private func updateDirect(_ panel: DirectXDRPanel, id: CGDirectDisplayID, gain: Double) {
-        let applied = min(gain, max(1, (panel.levelNits ?? panel.sdrWhiteNits) / panel.sdrWhiteNits))
+    private func updateDirect(_ panel: DirectXDRPanel, id: CGDirectDisplayID, gain: Double? = nil, nits: Double) {
+        let applied = min(Self.gainRange.upperBound, max(1, nits / panel.sdrWhiteNits))
+        let requested = gain ?? applied
         let current = sessions[id]
-        if current?.requested != gain || abs((current?.applied ?? 1) - applied) >= 0.005 {
-            sessions[id] = Session(output: .direct(panel), requested: gain, applied: applied)
+        if current == nil || (gain != nil && current?.requested != requested) ||
+            abs((current?.applied ?? 1) - applied) >= 0.005 {
+            sessions[id] = Session(output: .direct(panel), requested: requested, applied: applied)
         }
         if errors[id] != nil { errors[id] = nil }
     }

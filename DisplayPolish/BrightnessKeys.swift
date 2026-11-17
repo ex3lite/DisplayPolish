@@ -160,8 +160,7 @@ final class BrightnessKeys: ObservableObject {
         guard let boost, boost.isSupported(on: id),
               let screen = NSScreen.screens.first(where: { $0.displayID == id }) else { return }
         let hardware = AppleBrightness.level(on: id)
-        let requested = boost.requestedGain(on: id)
-        let current = requested ?? hardware ?? 1
+        let current = boost.requestedGain(on: id) == nil ? hardware ?? 1 : boost.appliedGain(on: id)
         let next = key.adjustedLevel(current, lowerBound: hardware == nil ? 1 : 0)
 
         if next != current {

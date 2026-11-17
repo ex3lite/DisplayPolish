@@ -18,9 +18,8 @@ struct BrightnessControl: View {
     private var supportsXDR: Bool { xdr.isSupported(on: display.id) }
     private var requestedGain: Double? { xdr.requestedGain(on: display.id) }
     private var appliedGain: Double { xdr.appliedGain(on: display.id) }
-    private var value: Double { requestedGain ?? hardwareLevel ?? 1 }
-    private var effectiveLevel: Double { requestedGain == nil ? value : appliedGain }
-    private var isBoosted: Bool { effectiveLevel > 1.001 }
+    private var value: Double { requestedGain == nil ? hardwareLevel ?? 1 : appliedGain }
+    private var isBoosted: Bool { value > 1.001 }
     private var xdrForeground: Color { colorScheme == .dark ? Self.xdrTint : Color(red: 0.02, green: 0.34, blue: 0.48) }
     private var sdrFill: Color { colorScheme == .dark ? Color(white: 0.86) : Color(white: 0.20) }
     private var mutedText: Color { Color.primary.opacity(0.68) }
@@ -44,7 +43,7 @@ struct BrightnessControl: View {
                             Text("≈\(estimatedNits) nits")
                                 .font(.system(size: 12, weight: .semibold))
                         }
-                        Text(effectiveLevel, format: .percent.precision(.fractionLength(0)))
+                        Text(value, format: .percent.precision(.fractionLength(0)))
                             .font(.system(size: estimatedNits == nil ? 13 : 11, weight: .medium))
                             .foregroundStyle(estimatedNits == nil ? Color.primary : mutedText)
                     }
@@ -87,6 +86,10 @@ struct BrightnessControl: View {
             }
         }
         .onChange(of: appliedGain) { _, _ in updateNits() }
+        .onChange(of: requestedGain != nil) { _, active in
+            if !active { hardwareLevel = AppleBrightness.level(on: display.id) }
+            updateNits()
+        }
     }
 
     private var brightnessSlider: some View {
@@ -182,7 +185,7 @@ struct BrightnessControl: View {
     }
 
     private var accessibleReading: Text {
-        let percent = effectiveLevel.formatted(.percent.precision(.fractionLength(0)))
+        let percent = value.formatted(.percent.precision(.fractionLength(0)))
         if let estimatedNits { return Text("\(percent), approximately \(estimatedNits) nits") }
         return Text(percent)
     }

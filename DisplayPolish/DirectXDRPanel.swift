@@ -81,8 +81,8 @@ final class DirectXDRPanel {
         return true
     }
 
-    func close() {
-        if Self.restore(recovery, on: service) {
+    func close(preservingLevel: Bool = false) {
+        if Self.restore(recovery, on: service, preservingLevel: preservingLevel) {
             UserDefaults.standard.removeObject(forKey: Self.recoveryKey)
             recovery.target = nil
             recovery.previousTarget = nil
@@ -115,12 +115,14 @@ final class DirectXDRPanel {
         return UserDefaults.standard.synchronize()
     }
 
-    private static func restore(_ recovery: Recovery, on service: io_service_t) -> Bool {
+    private static func restore(_ recovery: Recovery, on service: io_service_t, preservingLevel: Bool = false) -> Bool {
         let targets = [recovery.target, recovery.previousTarget].compactMap { $0 }
         guard !targets.isEmpty else { return true }
-        guard let cap = read(capKey, from: service), let level = read(levelKey, from: service) else { return false }
+        guard let cap = read(capKey, from: service) else { return false }
+        let level = preservingLevel ? nil : read(levelKey, from: service)
+        guard preservingLevel || level != nil else { return false }
         let ownsCap = targets.contains(cap)
-        let ownsLevel = targets.contains { abs(level - $0) <= 1 }
+        let ownsLevel = level.map { level in targets.contains { abs(level - $0) <= 1 } } ?? false
         let capRestored = !ownsCap || write(recovery.originalCap, key: capKey, to: service)
         let levelRestored = !ownsLevel || write(recovery.originalLevel, key: levelKey, to: service)
         return capRestored && levelRestored

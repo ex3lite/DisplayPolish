@@ -22,7 +22,7 @@ DisplayPolish повышает яркость совместимых XDR- и HDR
 
 ```sh
 installer=$(mktemp -t displaypolish-install)
-curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.1/install.sh -o "$installer" &&
+curl -fsSL https://raw.githubusercontent.com/ex3lite/DisplayPolish/v0.1.2/install.sh -o "$installer" &&
   /bin/bash "$installer"
 rm -f "$installer"
 ```
